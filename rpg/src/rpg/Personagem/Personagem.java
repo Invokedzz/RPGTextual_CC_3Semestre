@@ -1,43 +1,54 @@
 package rpg.Personagem;
 
 public class Personagem {
-    private String name;
-    private int life;
-    private int damage;
 
-    public Personagem(String name, int life, int damage) {
+    private String name;
+
+    private int life;
+
+    private Weapon weapon;
+
+    public Personagem (String name, int life, Weapon weapon) {
+
         this.name = name;
         this.life = life;
-        this.damage = damage;
+        this.weapon = weapon;
+
     }
 
 
     public void attack() {
-        System.out.println(name + " ataca com " + damage + " de dano!");
+
+        System.out.println(name + " ataca com " + weapon.getDamage() + " de dano!");
+
     }
 
-    public void damageReceived(){
+    public void damageReceived(Double damage){
+
         life -= damage;
         System.out.println(name + " recebeu " + damage + " de dano. Vida restante: " + life);
+
     }
 
     public void status() {
+
         System.out.println("Nome: "
                 + name
                 + " | Vida: "
                 + life
                 + " | Ataque: "
-                + damage);
+                + weapon.getDamage());
+
     }
 
+    @Override
     public String toString() {
-        return "Nome: "
-                + name
-                + " | Vida: "
-                + life
-                + " | Ataque: "
-                + damage;
-    }
 
+        return "Personagem{" +
+                "name='" + name + '\'' +
+                ", life=" + life +
+                ", weapon=" + weapon +
+                '}';
+    }
 
 }

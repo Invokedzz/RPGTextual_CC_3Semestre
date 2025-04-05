@@ -13,7 +13,9 @@ public class JogoRpg {
         liz.status();
 
 
+        System.out.println(morato);
 
+        System.out.println(liz);
 
 
     }
