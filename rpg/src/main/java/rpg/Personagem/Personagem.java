@@ -4,11 +4,11 @@ public class Personagem {
 
     private String name;
 
-    private int life;
+    private Integer life;
 
     private Weapon weapon;
 
-    public Personagem (String name, int life, Weapon weapon) {
+    public Personagem (String name, Integer life, Weapon weapon) {
 
         this.name = name;
         this.life = life;
@@ -23,7 +23,7 @@ public class Personagem {
 
     }
 
-    public void damageReceived(Double damage){
+    public void damageReceived(Integer damage){
 
         life -= damage;
         System.out.println(name + " recebeu " + damage + " de dano. Vida restante: " + life);
