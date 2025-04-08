@@ -1,8 +1,12 @@
 package rpg.Jogo;
 
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
 import rpg.Personagem.DrMorato;
 import rpg.Personagem.Liz;
 import rpg.Util.ReadTxtFiles;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 public class JogoRpg {
 
@@ -20,6 +24,8 @@ public class JogoRpg {
         System.out.println(morato);
 
         System.out.println(liz);
+
+        System.out.println(ansi().eraseScreen().fg(Ansi.Color.GREEN).render("Show a green message"));
 
 
     }
