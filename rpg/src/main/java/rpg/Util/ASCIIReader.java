@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class ReadTxtFiles {
+public class ASCIIReader {
 
-    public static void displayTxtFile (String path) {
+    public static void readTxtFile(String path) {
 
         try {
 

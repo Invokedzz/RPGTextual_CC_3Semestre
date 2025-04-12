@@ -1,4 +1,4 @@
-package rpg.Personagem;
+package rpg.Personagem.main_characters;
 
 public class Personagem {
 
@@ -16,6 +16,29 @@ public class Personagem {
 
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getLife() {
+        return life;
+    }
+
+    public void setLife(Integer life) {
+        this.life = life;
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
 
     public void attack() {
 

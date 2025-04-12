@@ -2,8 +2,32 @@ package rpg.Personagem.enums;
 
 public enum WeaponType {
 
-    LançaChuvaBiologico,
+    // Armas do DR. Morato:
 
-    GranadaNeblinaFertilizante;
+    LancadorDeOndasEletromagneticas,
+
+    CanetaDePulso,
+
+    DisruptorPortatil,
+
+    ModuloDeRedirecionamento,
+
+    CampoDeDistorcaoPortatil,
+
+    ReatorDeParticulas,
+
+    // Armas da Liz:
+
+    LaminaDeFerroReciclado,
+
+    Furiosa,
+
+    FuriaUrbana,
+
+    GritoDePlasma,
+
+    PunhoEspectral,
+
+    RaioPessoal,
 
 }

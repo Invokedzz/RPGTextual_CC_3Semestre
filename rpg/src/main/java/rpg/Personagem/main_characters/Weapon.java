@@ -1,4 +1,4 @@
-package rpg.Personagem;
+package rpg.Personagem.main_characters;
 
 import rpg.Personagem.enums.WeaponType;
 
