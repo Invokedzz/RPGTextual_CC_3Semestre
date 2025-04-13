@@ -2,6 +2,8 @@ package rpg.Personagem.main_characters;
 
 import rpg.Personagem.enums.WeaponType;
 
+import static rpg.Jogo.JogoInterface.printSlowly;
+
 public class Liz extends Personagem {
 
     public Liz () {

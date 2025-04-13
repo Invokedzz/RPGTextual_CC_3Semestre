@@ -9,6 +9,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class JogoInterface {
+    public static final String VERDE = "\u001B[32m";
+    public static final String RESET = "\u001B[0m";
 
     public void start () {
         DrMorato escolha1 = new DrMorato();
@@ -16,11 +18,26 @@ public class JogoInterface {
 
         Scanner sc = new Scanner(System.in);
 
+        String texto1 = VERDE + "[ACESSANDO TERMINAL DA RESISTÊNCIA VERDE...]\n" +
+        "\n" +
+                ">> Conexão segura estabelecida.\n" +
+                "\n" +
+                ">> Identidade confirmada. Acesso de campo liberado.\n" +
+                "\n" +
+                ">> Carregando perfil dos agentes disponíveis para a missão final: OPERAÇÃO RAIZ...\n" +
+                "\n" +
+                ">> Apenas dois membros ativos estão aptos para a infiltração nos Núcleos Verdes.\n" + RESET;
+
+        printSlowlyWithSound(texto1, 50);
+
+        String pausa;
+        pausa = sc.nextLine();
+
         System.out.println("Personagens que podem ser escolhidos: ");
         System.out.println("--------------------------------------------------");
-        System.out.print(escolha1.escolha());
+        printSlowly(escolha1.escolha(), 25);
         System.out.println("--------------------------------------------------");
-        System.out.print(escolha2.escolha());
+        printSlowly(escolha2.escolha(), 25);
         System.out.println("--------------------------------------------------");
         System.out.print("Escolha a opção desejada (1/2):");
 
@@ -69,6 +86,39 @@ public class JogoInterface {
         }
 
         return null;
+
+    }
+
+    public static void printSlowly(String text, long delay) {
+        for (char c : text.toCharArray()) {
+            System.out.print(c);
+            try {
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();  // boa prática
+            }
+        }
+        System.out.println();  // pular linha no final
+    }
+
+    public static void printSlowlyWithSound(String text, long delayMillis) {
+        for (char c : text.toCharArray()) {
+            System.out.print(c);
+            System.out.flush();
+
+            if (c == ' ') {
+                SomInterface.playBeep(); // Toca o beep só quando for espaço
+            }
+
+            try {
+                Thread.sleep(delayMillis);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        System.out.println();
+
+        SomInterface.fecharBeep(); // <- FECHA O SOM AQUI!
 
     }
 

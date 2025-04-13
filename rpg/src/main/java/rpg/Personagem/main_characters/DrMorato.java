@@ -2,6 +2,9 @@ package rpg.Personagem.main_characters;
 
 import rpg.Personagem.enums.WeaponType;
 
+import static rpg.Jogo.JogoInterface.printSlowly;
+import static rpg.Jogo.JogoInterface.printSlowlyWithSound;
+
 public class DrMorato extends Personagem {
 
     public DrMorato () {
@@ -16,7 +19,7 @@ public class DrMorato extends Personagem {
     public String escolha() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Opção 1: ");
+        sb.append(" Opção 1: ");
         sb.append("Dr. Morato: Preciso, analítico, evasivo! \n ");
         sb.append("Por conhecer a arquitetura da IA GAIA, Morato sabe ");
         sb.append("como se mover sem ser detectado. Ele não é tão forte quanto ");
@@ -28,6 +31,8 @@ public class DrMorato extends Personagem {
         sb.append(" | Vida: ").append(getLife());
         sb.append(" | Dano: Baixo");
         sb.append(" | Ataque: Baixo \n");
+
+
 
         return sb.toString();
     }
