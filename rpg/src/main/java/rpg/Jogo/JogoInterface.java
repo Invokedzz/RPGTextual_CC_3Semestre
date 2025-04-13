@@ -11,10 +11,20 @@ import java.util.Scanner;
 public class JogoInterface {
 
     public void start () {
+        DrMorato escolha1 = new DrMorato();
+        Liz escolha2 = new Liz();
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Texto de escolha pro personagem");
+        System.out.println("Personagens que podem ser escolhidos: ");
+        System.out.println("--------------------------------------------------");
+        System.out.print(escolha1.escolha());
+        System.out.println("--------------------------------------------------");
+        System.out.print(escolha2.escolha());
+        System.out.println("--------------------------------------------------");
+        System.out.print("Escolha a opção desejada (1/2):");
+
+
 
         int choice = sc.nextInt();
 
@@ -26,6 +36,8 @@ public class JogoInterface {
 
         }
 
+
+
     }
 
     private Personagem chooseYourCharacter (int choice) {
@@ -36,23 +48,15 @@ public class JogoInterface {
 
                 case 1:
 
-                    DrMorato drMorato = new DrMorato();
-
-                    System.out.println("Escolheu: " + drMorato);
-
-                    return drMorato;
+                    return new DrMorato();
 
                 case 2:
 
-                    Liz liz = new Liz();
-
-                    System.out.println("Escolheu: " + liz);
-
-                    return liz;
+                    return new Liz();
 
                 default:
 
-                    System.out.println("Erro!");
+                    System.out.println("Opção escolhida invalida!");
 
                     break;
 
@@ -67,5 +71,9 @@ public class JogoInterface {
         return null;
 
     }
+
+
+
+
 
 }

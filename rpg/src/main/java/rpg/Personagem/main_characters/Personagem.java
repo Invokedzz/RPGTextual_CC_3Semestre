@@ -64,14 +64,27 @@ public class Personagem {
 
     }
 
+    public String statusEscolha() {
+
+        return("Nome: "
+                + name
+                + " | Vida: "
+                + life
+                + " | Ataque: "
+                + weapon.getDamage());
+
+    }
+
     @Override
     public String toString() {
 
-        return "Personagem{" +
-                "name='" + name + '\'' +
-                ", life=" + life +
-                ", weapon=" + weapon +
-                '}';
+        return "Personagem escolhido: \n"
+                + "Nome: "
+                + name
+                + " | Vida: "
+                + life
+                + " | Arma: "
+                + weapon.getWeaponType();
     }
 
 }
