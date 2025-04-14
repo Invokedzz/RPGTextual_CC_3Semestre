@@ -5,7 +5,8 @@ public class JogoRpg {
 
     public static void main(String[] args) {
 
-        new JogoGui();
+        new JogoInterface().start();
+        // new JogoGui();
 
     }
 }

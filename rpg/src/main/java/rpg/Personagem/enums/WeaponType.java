@@ -4,30 +4,30 @@ public enum WeaponType {
 
     // Armas do DR. Morato:
 
-    LancadorDeOndasEletromagneticas,
+    Lancador_De_Ondas_Eletromagneticas,
 
-    CanetaDePulso,
+    Caneta_De_Pulso,
 
-    DisruptorPortatil,
+    Disruptor_Portatil,
 
-    ModuloDeRedirecionamento,
+    Modulo_De_Redirecionamento,
 
-    CampoDeDistorcaoPortatil,
+    Campo_De_Distorcao_Portatil,
 
-    ReatorDeParticulas,
+    Reator_De_Particulas,
 
     // Armas da Liz:
 
-    LaminaDeFerroReciclado,
+    Lamina_De_Ferro_Reciclado,
 
     Furiosa,
 
-    FuriaUrbana,
+    Furia_Urbana,
 
-    GritoDePlasma,
+    Grito_De_Plasma,
 
-    PunhoEspectral,
+    Punho_Espectral,
 
-    RaioPessoal,
+    Raio_Pessoal,
 
 }
