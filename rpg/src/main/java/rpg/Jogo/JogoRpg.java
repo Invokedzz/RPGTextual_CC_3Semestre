@@ -8,5 +8,6 @@ public class JogoRpg {
         new JogoInterface().start();
         // new JogoGui();
 
+
     }
 }

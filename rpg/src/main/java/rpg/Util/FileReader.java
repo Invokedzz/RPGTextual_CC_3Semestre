@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class ASCIIReader {
+public class FileReader {
 
-    public static void readTxtFile(String path) {
+    public static String readTxtFile(String path) {
 
         try {
 
@@ -16,13 +16,13 @@ public class ASCIIReader {
 
             if (file.exists()) {
 
+                StringBuilder data = new StringBuilder();
+
                 while (scanner.hasNextLine()) {
-
-                    String data = scanner.nextLine();
-
-                    System.out.println(data);
-
+                    data.append(scanner.nextLine()).append("\n");
                 }
+
+                return data.toString();
 
             }
 
@@ -31,6 +31,8 @@ public class ASCIIReader {
             throw new InvalidFilePathException(e.getMessage());
 
         }
+
+        return null;
 
     }
 
