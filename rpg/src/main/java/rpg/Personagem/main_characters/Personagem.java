@@ -64,18 +64,14 @@ public class Personagem {
 
     }
 
-    public String statusEscolha() {
+    public String changeEnumNames (String name) {
 
-        return("Nome: "
-                + name
-                + " | Vida: "
-                + life
-                + " | Ataque: "
-                + weapon.getDamage());
+        name = name.replace("_", " ");
+
+        return name;
 
     }
 
-    @Override
     public String toString() {
 
         return "Personagem escolhido: \n"
@@ -84,7 +80,7 @@ public class Personagem {
                 + " | Vida: "
                 + life
                 + " | Arma: "
-                + weapon.getWeaponType();
+                + changeEnumNames(weapon.getWeaponType().name());
     }
 
 }
