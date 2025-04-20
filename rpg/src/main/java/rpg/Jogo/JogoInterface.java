@@ -1,5 +1,8 @@
 package rpg.Jogo;
 
+import rpg.Personagem.enemies.Mobs;
+import rpg.Personagem.enemies.Skill;
+import rpg.Personagem.enemies.skills.None;
 import rpg.Personagem.main_characters.DrMorato;
 import rpg.Personagem.main_characters.Liz;
 import rpg.Personagem.main_characters.Personagem;
@@ -63,14 +66,6 @@ public class JogoInterface {
 
         Personagem chosenCharacter = chooseYourCharacter(choice);
 
-
-        if (chosenCharacter != null) {
-
-            System.out.println(chosenCharacter);
-
-        }
-
-
         System.out.println("--------------------------------------------------");
 
         sc.nextLine();
@@ -83,6 +78,24 @@ public class JogoInterface {
         escolha1.setWeapon(new Weapon(WeaponType.Lamina_De_Ferro_Reciclado, 50));
         System.out.println(escolha1);
         */
+
+        System.out.println("--------------------------------------------------");
+
+        if (chosenCharacter != null) {
+
+            if (chosenCharacter instanceof DrMorato) {
+
+                drMoratoStoryline(chosenCharacter);
+
+            }
+
+            else if (chosenCharacter instanceof Liz) {
+
+                lizStoryline(chosenCharacter);
+
+            }
+
+        }
 
     }
 
@@ -117,6 +130,40 @@ public class JogoInterface {
         return null;
 
     }
+
+    private void drMoratoStoryline (Personagem character) {
+
+        System.out.println(character);
+
+        /*
+
+            Insira a lore do personagem
+
+        */
+
+    }
+
+    private void lizStoryline (Personagem character) {
+
+        System.out.println(character);
+
+        /*
+
+            Insira a lore do personagem
+
+        */
+
+    }
+
+    private void droneVigiaFight () {
+
+        Mobs droneVigia = new Mobs("Drone Vigia", 30, 30, new None());
+
+
+
+    }
+
+    private void droneControleLeveFight () {}
 
     public static void printSlowly(String text, long delay) {
         for (char c : text.toCharArray()) {

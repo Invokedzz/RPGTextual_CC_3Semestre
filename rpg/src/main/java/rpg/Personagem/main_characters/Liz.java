@@ -6,13 +6,22 @@ import static rpg.Jogo.JogoInterface.printSlowly;
 
 public class Liz extends Personagem {
 
+    private Weapon weapon;
+
     public Liz () {
 
-        super("Liz",
-                150,
-                new Weapon(WeaponType.Lamina_De_Ferro_Reciclado,
-                        20));
+        super("Liz", 150);
 
+        this.weapon = new Weapon(WeaponType.Lamina_De_Ferro_Reciclado, 30);
+
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
     }
 
     public String escolha() {

@@ -6,13 +6,10 @@ public class Personagem {
 
     private Integer life;
 
-    private Weapon weapon;
-
-    public Personagem (String name, Integer life, Weapon weapon) {
+    public Personagem (String name, Integer life) {
 
         this.name = name;
         this.life = life;
-        this.weapon = weapon;
 
     }
 
@@ -32,20 +29,6 @@ public class Personagem {
         this.life = life;
     }
 
-    public Weapon getWeapon() {
-        return weapon;
-    }
-
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
-    }
-
-    public void attack() {
-
-        System.out.println(name + " ataca com " + weapon.getDamage() + " de dano!");
-
-    }
-
     public void damageReceived(Integer damage){
 
         life -= damage;
@@ -58,9 +41,7 @@ public class Personagem {
         System.out.println("Nome: "
                 + name
                 + " | Vida: "
-                + life
-                + " | Ataque: "
-                + weapon.getDamage());
+                + life);
 
     }
 
@@ -72,15 +53,11 @@ public class Personagem {
 
     }
 
+    @Override
     public String toString() {
-
-        return "Personagem escolhido: \n"
-                + "Nome: "
-                + name
-                + " | Vida: "
-                + life
-                + " | Arma: "
-                + changeEnumNames(weapon.getWeaponType().name());
+        return "Personagem{" +
+                "name='" + name + '\'' +
+                ", life=" + life +
+                '}';
     }
-
 }

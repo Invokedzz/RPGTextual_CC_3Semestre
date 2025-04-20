@@ -7,13 +7,22 @@ import static rpg.Jogo.JogoInterface.printSlowlyWithSound;
 
 public class DrMorato extends Personagem {
 
+    private Weapon weapon;
+
     public DrMorato () {
 
-        super("Dr Morato",
-                130,
-                new Weapon(WeaponType.Campo_De_Distorcao_Portatil,
-                        30));
+        super("Dr Morato", 130);
 
+        this.weapon = new Weapon(WeaponType.Lancador_De_Ondas_Eletromagneticas, 20);
+
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
     }
 
     public String escolha() {

@@ -1,29 +1,21 @@
 package rpg.Personagem.enemies;
 
-public class Mobs {
+import rpg.Personagem.main_characters.Personagem;
 
-    private Integer lifePoints;
+public class Mobs extends Personagem {
 
     private Integer damage;
 
     private Skill skill;
 
-    public Mobs (Integer lifePoints, Integer damage, Skill skill) {
+    public Mobs (String name, Integer lifePoints, Integer damage, Skill skill) {
 
-        this.lifePoints = lifePoints;
+        super(name, lifePoints);
 
         this.damage = damage;
 
         this.skill = skill;
 
-    }
-
-    public Integer getLifePoints() {
-        return lifePoints;
-    }
-
-    public void setLifePoints(Integer lifePoints) {
-        this.lifePoints = lifePoints;
     }
 
     public Integer getDamage() {
