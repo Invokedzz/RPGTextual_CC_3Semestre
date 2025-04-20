@@ -9,9 +9,7 @@ import rpg.Personagem.main_characters.Personagem;
 import rpg.Util.FileReader;
 import rpg.exceptions.InvalidUserInputException;
 
-import java.util.InputMismatchException;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class JogoInterface {
     public static final String VERDE = "\u001B[32m";
@@ -85,13 +83,13 @@ public class JogoInterface {
 
             if (chosenCharacter instanceof DrMorato) {
 
-                drMoratoStoryline(chosenCharacter);
+                drMoratoStoryline(sc, chosenCharacter);
 
             }
 
             else if (chosenCharacter instanceof Liz) {
 
-                lizStoryline(chosenCharacter);
+                lizStoryline(sc, chosenCharacter);
 
             }
 
@@ -131,7 +129,7 @@ public class JogoInterface {
 
     }
 
-    private void drMoratoStoryline (Personagem character) {
+    private void drMoratoStoryline (Scanner sc, Personagem character) {
 
         System.out.println(character);
 
@@ -141,9 +139,11 @@ public class JogoInterface {
 
         */
 
+        droneVigiaFight(sc, character);
+
     }
 
-    private void lizStoryline (Personagem character) {
+    private void lizStoryline (Scanner sc, Personagem character) {
 
         System.out.println(character);
 
@@ -153,13 +153,112 @@ public class JogoInterface {
 
         */
 
+        droneVigiaFight(sc, character);
+
     }
 
-    private void droneVigiaFight () {
+    private void droneVigiaFight (Scanner sc, Personagem character) {
 
-        Mobs droneVigia = new Mobs("Drone Vigia", 30, 30, new None());
+        List<Mobs> drones = new ArrayList<>();
+        drones.add(new Mobs("Drone Vigia #1", 30, 10, new None()));
+        drones.add(new Mobs("Drone Vigia #2", 30, 10, new None()));
+        drones.add(new Mobs("Drone Vigia #3", 30, 10, new None()));
 
+        System.out.println(">>> Combate iniciado: " + character.getName() + " vs Drones de Vigilância");
+        System.out.println();
 
+        while (character.getLife() > 0 && drones.stream().anyMatch(drone -> drone.getLife() > 0)) {
+
+            System.out.println("Status atual:");
+            System.out.println(character.getName() + " - Vida: " + character.getLife());
+
+            for (int i = 0; i < drones.size(); i++) {
+
+                Mobs drone = drones.get(i);
+                System.out.println((i + 1) + " - " + drone.getName() + " - Vida: " + drone.getLife());
+
+            }
+
+            System.out.println();
+
+            System.out.println("Seu turno! Escolha uma ação:");
+            System.out.println("1 - Atacar com arma");
+            System.out.println("2 - Fugir");
+            System.out.print("Opção: ");
+
+            int option = sc.nextInt();
+
+            switch (option) {
+
+                case 1:
+
+                    System.out.println("Escolha um drone para atacar:");
+
+                    for (int i = 0; i < drones.size(); i++) {
+                        Mobs drone = drones.get(i);
+                        if (drone.getLife() > 0) {
+                            System.out.println((i + 1) + " - " + drone.getName() + " (Vida: " + drone.getLife() + ")");
+                        }
+
+                    }
+
+                    System.out.print("Opção: ");
+
+                    int alvo = sc.nextInt() - 1;
+
+                    if (alvo >= 0 && alvo < drones.size() && drones.get(alvo).getLife() > 0) {
+
+                        int dano = 0;
+
+                        if (character instanceof DrMorato) {
+
+                            dano = ((DrMorato) character).getWeapon().getDamage();
+
+                        } else if (character instanceof Liz) {
+
+                            dano = ((Liz) character).getWeapon().getDamage();
+
+                        }
+
+                        Mobs droneAlvo = drones.get(alvo);
+
+                        droneAlvo.setLife(Math.max(0, droneAlvo.getLife() - dano));
+
+                        System.out.println("Você atacou " + droneAlvo.getName() + " causando " + dano + " de dano!");
+
+                    } else {
+                        System.out.println("Alvo inválido!");
+                    }
+
+                    break;
+
+                case 2:
+                    System.out.println(character.getName() + " fugiu da batalha!");
+                    return;
+
+            }
+
+            for (Mobs drone : drones) {
+
+                if (drone.getLife() > 0) {
+
+                    System.out.println(drone.getName() + " ataca causando " + drone.getDamage() + " de dano!");
+
+                    character.setLife(Math.max(0, character.getLife() - drone.getDamage()));
+
+                    if (character.getLife() <= 0) {
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+            System.out.println("------------------------------------");
+
+        }
 
     }
 
@@ -197,9 +296,5 @@ public class JogoInterface {
         SomInterface.fecharBeep(); // <- FECHA O SOM AQUI!
 
     }
-
-
-
-
 
 }
