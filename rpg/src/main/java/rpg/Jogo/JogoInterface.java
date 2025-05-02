@@ -3,6 +3,7 @@ package rpg.Jogo;
 import rpg.Personagem.enemies.Mobs;
 import rpg.Personagem.enemies.Skill;
 import rpg.Personagem.enemies.skills.None;
+import rpg.Personagem.enemies.skills.Paralyze;
 import rpg.Personagem.main_characters.DrMorato;
 import rpg.Personagem.main_characters.Liz;
 import rpg.Personagem.main_characters.Personagem;
@@ -141,6 +142,14 @@ public class JogoInterface {
 
         droneVigiaFight(sc, character);
 
+        character.setLife(character.getLife() + 90);
+
+        droneControleLeveFight(sc, character);
+
+        character.setLife(character.getLife() + 90);
+
+        gaiaFight(sc, character);
+
     }
 
     private void lizStoryline (Scanner sc, Personagem character) {
@@ -154,6 +163,14 @@ public class JogoInterface {
         */
 
         droneVigiaFight(sc, character);
+
+        character.setLife(character.getLife() + 30);
+
+        droneControleLeveFight(sc, character);
+
+        character.setLife(character.getLife() + 30);
+
+        gaiaFight(sc, character);
 
     }
 
@@ -262,7 +279,193 @@ public class JogoInterface {
 
     }
 
-    private void droneControleLeveFight () {}
+    private void droneControleLeveFight (Scanner sc, Personagem character) {
+
+        Mobs droneControle = new Mobs("Drone de Controle Leve", 50, 40, new Paralyze());
+        boolean weaponLocked = false;
+        int lockTurns = 0;
+
+        System.out.println(">>> Combate iniciado: " + character.getName() + " vs " + droneControle.getName());
+        System.out.println();
+
+        while (character.getLife() > 0 && droneControle.getLife() > 0) {
+
+            System.out.println("Status atual:");
+            System.out.println(character.getName() + " - Vida: " + character.getLife());
+            System.out.println(droneControle.getName() + " - Vida: " + droneControle.getLife());
+            System.out.println();
+
+            if (weaponLocked && lockTurns > 0) {
+                System.out.println("Sua arma está travada e você não pode atacar neste turno!");
+                lockTurns--;
+            } else {
+                System.out.println("Seu turno! Escolha uma ação:");
+                System.out.println("1 - Atacar com arma");
+                System.out.println("2 - Fugir");
+                System.out.print("Opção: ");
+                int option = sc.nextInt();
+
+                switch (option) {
+                    case 1:
+                        int dano = 0;
+                        if (character instanceof DrMorato) {
+                            dano = ((DrMorato) character).getWeapon().getDamage();
+                        } else if (character instanceof Liz) {
+                            dano = ((Liz) character).getWeapon().getDamage();
+                        }
+
+                        droneControle.setLife(Math.max(0, droneControle.getLife() - dano));
+                        System.out.println("Você atacou causando " + dano + " de dano!");
+                        break;
+
+                    case 2:
+                        System.out.println(character.getName() + " fugiu da batalha!");
+                        return;
+
+                    default:
+                        System.out.println("Opção inválida.");
+                }
+            }
+
+            if (droneControle.getLife() > 0) {
+                System.out.println(droneControle.getName() + " ataca causando " + droneControle.getDamage() + " de dano!");
+                character.setLife(Math.max(0, character.getLife() - droneControle.getDamage()));
+
+                if (!weaponLocked && Math.random() < 0.3) {
+                    droneControle.getSkill().use(character);
+                    weaponLocked = true;
+                    lockTurns = 1;
+                    System.out.println(droneControle.getName() + " usou a habilidade: Travar Arma! Você perderá o próximo turno.");
+                }
+            }
+
+            System.out.println("------------------------------------");
+        }
+
+        if (character.getLife() <= 0) {
+            System.out.println(character.getName() + " foi derrotado.");
+        } else {
+            System.out.println(character.getName() + " venceu o combate!");
+        }
+
+    }
+
+    private void gaiaFight(Scanner sc, Personagem character) {
+
+        Mobs gaia = new Mobs("GAIA – Raiz Primária", 130, 10, new None()); // Ignora armadura por padrão
+        List<Mobs> drones = new ArrayList<>();
+        int turnCount = 0;
+
+        System.out.println(">>> BOSS FIGHT: " + character.getName() + " vs " + gaia.getName());
+        System.out.println("Descrição: A própria IA em sua forma digital/humana, protegida por um corpo energético e drones secundários.");
+        System.out.println();
+
+        while (character.getLife() > 0 && gaia.getLife() > 0) {
+            turnCount++;
+
+            System.out.println("========== TURNO " + turnCount + " ==========");
+            System.out.println(character.getName() + " - Vida: " + character.getLife());
+            System.out.println(gaia.getName() + " - Vida: " + gaia.getLife());
+
+            for (int i = 0; i < drones.size(); i++) {
+                Mobs drone = drones.get(i);
+                if (drone.getLife() > 0) {
+                    System.out.println("Drone Suporte #" + (i + 1) + " - Vida: " + drone.getLife());
+                }
+            }
+
+            System.out.println();
+            System.out.println("Seu turno! Escolha uma ação:");
+            System.out.println("1 - Atacar GAIA");
+            System.out.println("2 - Atacar Drone Suporte");
+            System.out.println("3 - Fugir");
+            System.out.print("Opção: ");
+            int option = sc.nextInt();
+
+            switch (option) {
+                case 1:
+                    int danoGaia = getDano(character);
+                    gaia.setLife(Math.max(0, gaia.getLife() - danoGaia));
+                    System.out.println("Você atacou GAIA causando " + danoGaia + " de dano!");
+                    break;
+
+                case 2:
+                    List<Mobs> dronesVivos = drones.stream().filter(d -> d.getLife() > 0).toList();
+                    if (dronesVivos.isEmpty()) {
+                        System.out.println("Não há drones vivos para atacar!");
+                    } else {
+                        for (int i = 0; i < dronesVivos.size(); i++) {
+                            System.out.println((i + 1) + " - Drone Suporte (Vida: " + dronesVivos.get(i).getLife() + ")");
+                        }
+                        System.out.print("Escolha o número do drone: ");
+                        int droneIndex = sc.nextInt() - 1;
+                        if (droneIndex >= 0 && droneIndex < dronesVivos.size()) {
+                            Mobs alvo = dronesVivos.get(droneIndex);
+                            int dano = getDano(character);
+                            alvo.setLife(Math.max(0, alvo.getLife() - dano));
+                            System.out.println("Você atacou o drone causando " + dano + " de dano!");
+                        } else {
+                            System.out.println("Drone inválido!");
+                        }
+                    }
+                    break;
+
+                case 3:
+                    System.out.println(character.getName() + " fugiu da batalha!");
+                    return;
+
+                default:
+                    System.out.println("Ação inválida.");
+            }
+
+            if (gaia.getLife() > 0) {
+                System.out.println("GAIA usa Pulso Zero Carbono e causa " + gaia.getDamage() + " de dano ignorando armaduras!");
+                character.setLife(Math.max(0, character.getLife() - gaia.getDamage()));
+            }
+
+            for (Mobs drone : drones) {
+                if (drone.getLife() > 0) {
+                    if (Math.random() < 0.5 && gaia.getLife() > 0) {
+
+                        gaia.setLife(Math.min(100, gaia.getLife() + 10));
+                        System.out.println(drone.getName() + " cura GAIA em +10 de vida!");
+                    } else {
+
+                        System.out.println(drone.getName() + " ataca causando 10 de dano!");
+                        character.setLife(Math.max(0, character.getLife() - 10));
+                    }
+                }
+            }
+
+            if (turnCount % 2 == 0) {
+                Mobs novoDrone = new Mobs("Drone Suporte de GAIA", 30, 10, new None());
+                drones.add(novoDrone);
+                System.out.println("Um novo Drone Suporte apareceu!");
+            }
+
+            if (turnCount % 3 == 0 && gaia.getLife() > 0) {
+                gaia.setLife(Math.min(100, gaia.getLife() + 20));
+                System.out.println("GAIA ativa Regeneração Ambiental! +20 de vida.");
+            }
+
+            System.out.println("--------------------------------------");
+        }
+
+        if (character.getLife() <= 0) {
+            System.out.println(character.getName() + " foi derrotado...");
+        } else {
+            System.out.println(character.getName() + " derrotou GAIA – Raiz Primária!");
+        }
+    }
+
+    private int getDano(Personagem character) {
+        if (character instanceof DrMorato) {
+            return ((DrMorato) character).getWeapon().getDamage();
+        } else if (character instanceof Liz) {
+            return ((Liz) character).getWeapon().getDamage();
+        }
+        return 10; // default
+    }
 
     public static void printSlowly(String text, long delay) {
         for (char c : text.toCharArray()) {
