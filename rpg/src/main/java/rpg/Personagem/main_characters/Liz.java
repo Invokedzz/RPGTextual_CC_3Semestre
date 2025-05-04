@@ -64,6 +64,7 @@ public class Liz extends Personagem {
         sb.append(" | Vida: ").append(getLife());
         sb.append(" | Dano: Alto");
         sb.append(" | Ataque: Alto |\n");
+        sb.append("--------------------------------------------------");
 
         return sb.toString();
     }

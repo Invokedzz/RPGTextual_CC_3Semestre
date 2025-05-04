@@ -65,6 +65,7 @@ public class DrMorato extends Personagem {
         sb.append(" | Vida: ").append(getLife());
         sb.append(" | Dano: Baixo");
         sb.append(" | Ataque: Baixo |\n");
+        sb.append("--------------------------------------------------");
 
 
 

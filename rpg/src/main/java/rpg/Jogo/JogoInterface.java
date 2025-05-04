@@ -15,7 +15,6 @@ import java.util.*;
 public class JogoInterface {
     public static final String VERDE = "\u001B[32m";
     public static final String RESET = "\u001B[0m";
-    public String pausa;
 
     public void start () {
         DrMorato escolha1 = new DrMorato();
@@ -23,11 +22,13 @@ public class JogoInterface {
 
         Scanner sc = new Scanner(System.in);
 
+        System.out.println("--------------------------------------------------");
+
         printSlowly(Objects.requireNonNull(FileReader.readTxtFile("Texto.txt")), 2);
 
         System.out.println("--------------------------------------------------");
 
-        pausa = sc.nextLine();
+        sc.nextLine();
 
         String texto1 = VERDE
                 + "[ACESSANDO TERMINAL DA RESISTÊNCIA VERDE...]\n"
@@ -48,9 +49,12 @@ public class JogoInterface {
                 + "\n"
                 + RESET;
 
+
         printSlowlyWithSound(texto1, 2);
 
-        pausa = sc.nextLine();
+        System.out.println("--------------------------------------------------");
+
+        sc.nextLine();
 
         System.out.println("Personagens que podem ser escolhidos: ");
         System.out.println("--------------------------------------------------");
@@ -68,8 +72,6 @@ public class JogoInterface {
         System.out.println("--------------------------------------------------");
 
         sc.nextLine();
-
-        pausa = sc.nextLine();
 
         printSlowly(Objects.requireNonNull(FileReader.readTxtFile("Texto2.txt")), 2);
 
@@ -119,6 +121,8 @@ public class JogoInterface {
                     break;
 
             }
+
+
 
         } catch (IllegalArgumentException | InputMismatchException ex) {
 
@@ -181,7 +185,9 @@ public class JogoInterface {
         drones.add(new Mobs("Drone Vigia #2", 30, 10, new None()));
         drones.add(new Mobs("Drone Vigia #3", 30, 10, new None()));
 
+
         System.out.println(">>> Combate iniciado: " + character.getName() + " vs Drones de Vigilância");
+        System.out.println("--------------------------------------------------");
         System.out.println();
 
         while (character.getLife() > 0 && drones.stream().anyMatch(drone -> drone.getLife() > 0)) {
@@ -193,7 +199,6 @@ public class JogoInterface {
 
                 Mobs drone = drones.get(i);
                 System.out.println((i + 1) + " - " + drone.getName() + " - Vida: " + drone.getLife());
-
             }
 
             System.out.println();
