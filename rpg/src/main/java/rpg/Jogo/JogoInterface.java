@@ -22,11 +22,7 @@ public class JogoInterface {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("--------------------------------------------------");
-
         printSlowly(Objects.requireNonNull(FileReader.readTxtFile("Texto.txt")), 2);
-
-        System.out.println("--------------------------------------------------");
 
         sc.nextLine();
 
@@ -52,16 +48,16 @@ public class JogoInterface {
 
         printSlowlyWithSound(texto1, 2);
 
-        System.out.println("--------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
 
         sc.nextLine();
 
         System.out.println("Personagens que podem ser escolhidos: ");
-        System.out.println("--------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
         printSlowly(escolha1.escolha(), 2);
-        System.out.println("--------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
         printSlowly(escolha2.escolha(), 2);
-        System.out.println("--------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.print("Escolha a opção desejada (1/2):");
 
 
@@ -69,7 +65,6 @@ public class JogoInterface {
 
         Personagem chosenCharacter = chooseYourCharacter(choice);
 
-        System.out.println("--------------------------------------------------");
 
         sc.nextLine();
 
@@ -80,7 +75,6 @@ public class JogoInterface {
         System.out.println(escolha1);
         */
 
-        System.out.println("--------------------------------------------------");
 
         if (chosenCharacter != null) {
 
@@ -187,7 +181,7 @@ public class JogoInterface {
 
 
         System.out.println(">>> Combate iniciado: " + character.getName() + " vs Drones de Vigilância");
-        System.out.println("--------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------------------------------------");
         System.out.println();
 
         while (character.getLife() > 0 && drones.stream().anyMatch(drone -> drone.getLife() > 0)) {
@@ -278,7 +272,7 @@ public class JogoInterface {
 
             }
 
-            System.out.println("------------------------------------");
+            System.out.println("-------------------------------------------------------------------------------------------------------------");
 
         }
 
@@ -344,7 +338,7 @@ public class JogoInterface {
                 }
             }
 
-            System.out.println("------------------------------------");
+            System.out.println("-------------------------------------------------------------------------------------------------------------");
         }
 
         if (character.getLife() <= 0) {
@@ -453,7 +447,7 @@ public class JogoInterface {
                 System.out.println("GAIA ativa Regeneração Ambiental! +20 de vida.");
             }
 
-            System.out.println("--------------------------------------");
+            System.out.println("-------------------------------------------------------------------------------------------------------------");
         }
 
         if (character.getLife() <= 0) {
