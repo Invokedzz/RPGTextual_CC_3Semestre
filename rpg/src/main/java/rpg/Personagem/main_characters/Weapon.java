@@ -2,6 +2,9 @@ package rpg.Personagem.main_characters;
 
 import rpg.Personagem.enums.WeaponType;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class Weapon {
 
     private WeaponType weaponType;
@@ -15,6 +18,8 @@ public class Weapon {
         this.damage = damage;
 
     }
+
+
 
     public WeaponType getWeaponType () {
 
@@ -38,6 +43,10 @@ public class Weapon {
 
         this.damage = damage;
 
+    }
+
+    public String weaponName() {
+        return getWeaponType().getFormattedName();
     }
 
     @Override

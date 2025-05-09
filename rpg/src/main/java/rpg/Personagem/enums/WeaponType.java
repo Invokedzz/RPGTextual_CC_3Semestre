@@ -1,5 +1,8 @@
 package rpg.Personagem.enums;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public enum WeaponType {
 
     // Armas do DR. Morato:
@@ -28,6 +31,12 @@ public enum WeaponType {
 
     Punho_Espectral,
 
-    Raio_Pessoal,
+    Raio_Pessoal;
+
+    public String getFormattedName() {
+        return Arrays.stream(this.name().split("_"))
+                .map(word -> word.substring(0,1).toUpperCase() + word.substring(1).toLowerCase())
+                .collect(Collectors.joining(" "));
+    }
 
 }

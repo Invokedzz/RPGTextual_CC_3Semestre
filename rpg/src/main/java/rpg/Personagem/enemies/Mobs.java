@@ -6,15 +6,15 @@ public class Mobs extends Personagem {
 
     private Integer damage;
 
-    private Skill skill;
+    private ISkill ISkill;
 
-    public Mobs (String name, Integer lifePoints, Integer damage, Skill skill) {
+    public Mobs (String name, Integer lifePoints, Integer damage, ISkill ISkill) {
 
         super(name, lifePoints);
 
         this.damage = damage;
 
-        this.skill = skill;
+        this.ISkill = ISkill;
 
     }
 
@@ -26,12 +26,12 @@ public class Mobs extends Personagem {
         this.damage = damage;
     }
 
-    public Skill getSkill() {
-        return skill;
+    public ISkill getSkill() {
+        return ISkill;
     }
 
-    public void setSkill(Skill skill) {
-        this.skill = skill;
+    public void setSkill(ISkill ISkill) {
+        this.ISkill = ISkill;
     }
 
 }

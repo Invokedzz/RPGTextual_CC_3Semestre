@@ -1,16 +1,28 @@
 package rpg.Personagem.main_characters;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class Personagem {
 
     private String name;
 
     private Integer life;
 
+    private Weapon weapon;
+
+    public Personagem (String name, Integer life, Weapon weapon) {
+
+        this.name = name;
+        this.life = life;
+        this.weapon = weapon;
+
+    }
+
     public Personagem (String name, Integer life) {
 
         this.name = name;
         this.life = life;
-
     }
 
     public String getName() {
@@ -43,6 +55,19 @@ public class Personagem {
                 + " | Vida: "
                 + life);
 
+    }
+
+    public String weaponNames(){
+        return weapon.weaponName();
+    }
+
+    public Weapon getWeapon() {
+
+        return weapon;
+    }
+
+    public void setWeapon(Weapon weapon) {
+        this.weapon = weapon;
     }
 
     public String changeEnumNames (String name) {

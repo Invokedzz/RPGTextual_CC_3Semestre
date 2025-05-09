@@ -1,20 +1,18 @@
 package rpg.Jogo;
 
 import rpg.Personagem.enemies.Mobs;
-import rpg.Personagem.enemies.Skill;
 import rpg.Personagem.enemies.skills.None;
 import rpg.Personagem.enemies.skills.Paralyze;
 import rpg.Personagem.main_characters.DrMorato;
 import rpg.Personagem.main_characters.Liz;
 import rpg.Personagem.main_characters.Personagem;
+import rpg.Util.Colors;
 import rpg.Util.FileReader;
 import rpg.exceptions.InvalidUserInputException;
 
 import java.util.*;
 
 public class JogoInterface {
-    public static final String VERDE = "\u001B[32m";
-    public static final String RESET = "\u001B[0m";
 
     public void start () {
         DrMorato escolha1 = new DrMorato();
@@ -22,11 +20,12 @@ public class JogoInterface {
 
         Scanner sc = new Scanner(System.in);
 
-        printSlowly(Objects.requireNonNull(FileReader.readTxtFile("Texto.txt")), 2);
+        printSlowly(Objects.requireNonNull(FileReader.readTxtFile("Texto.txt")), 0);
 
+        System.out.println("Pressione enter para continuar!");
         sc.nextLine();
 
-        String texto1 = VERDE
+        String texto1 = Colors.VERDE
                 + "[ACESSANDO TERMINAL DA RESISTÊNCIA VERDE...]\n"
                 + "\n"
                 + ">> Conexão segura estabelecida.\n"
@@ -43,35 +42,45 @@ public class JogoInterface {
                 + "\n"
                 + ">> ATENÇÃO: Sua escolha influenciará sua jornada.\n"
                 + "\n"
-                + RESET;
+                + Colors.RESET;
 
 
-        printSlowlyWithSound(texto1, 2);
+        printSlowlyWithSound(texto1, 0);
 
-        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        splitVoid();
 
+        System.out.println("Pressione enter para continuar!");
         sc.nextLine();
 
         System.out.println("Personagens que podem ser escolhidos: ");
-        System.out.println("-------------------------------------------------------------------------------------------------------------");
-        printSlowly(escolha1.escolha(), 2);
-        System.out.println("-------------------------------------------------------------------------------------------------------------");
-        printSlowly(escolha2.escolha(), 2);
-        System.out.println("-------------------------------------------------------------------------------------------------------------");
-        System.out.print("Escolha a opção desejada (1/2):");
+        splitVoid();
+        printSlowly(escolha1.escolha(), 0);
+        splitVoid();
+        printSlowly(escolha2.escolha(), 0);
+        splitVoid();
+        String choice;
 
+        do {
+            System.out.print("Escolha a opção desejada (1/2):");
+            choice = sc.nextLine();
+            if (!choice.equals("1") && !choice.equals("2")){
+                System.out.print("Opção invalida, digite novamente escolhendo entre 1 e 2: ");
+                choice = sc.next();
+            }
+        } while (!choice.equals("1") && !choice.equals("2"));
 
-        int choice = sc.nextInt();
 
         Personagem chosenCharacter = chooseYourCharacter(choice);
 
-
+        printSlowly(Objects.requireNonNull(FileReader.readTxtFile("Texto2.txt")), 0);
+        System.out.println("Pressione enter para continuar!");
         sc.nextLine();
 
-        printSlowly(Objects.requireNonNull(FileReader.readTxtFile("Texto2.txt")), 2);
+
+
 
         /* Comando para alterar armas
-        escolha1.setWeapon(new Weapon(WeaponType.Lamina_De_Ferro_Reciclado, 50));
+        character.setWeapon(new Weapon(WeaponType.Lamina_De_Ferro_Reciclado, 50));
         System.out.println(escolha1);
         */
 
@@ -94,49 +103,9 @@ public class JogoInterface {
 
     }
 
-    private Personagem chooseYourCharacter (int choice) {
-
-        try {
-
-            switch (choice) {
-
-                case 1:
-
-                    return new DrMorato();
-
-                case 2:
-
-                    return new Liz();
-
-                default:
-
-                    System.out.println("Opção escolhida invalida!");
-
-                    break;
-
-            }
-
-
-
-        } catch (IllegalArgumentException | InputMismatchException ex) {
-
-            throw new InvalidUserInputException(ex.getMessage());
-
-        }
-
-        return null;
-
-    }
-
     private void drMoratoStoryline (Scanner sc, Personagem character) {
 
         System.out.println(character);
-
-        /*
-
-            Insira a lore do personagem
-
-        */
 
         droneVigiaFight(sc, character);
 
@@ -153,12 +122,6 @@ public class JogoInterface {
     private void lizStoryline (Scanner sc, Personagem character) {
 
         System.out.println(character);
-
-        /*
-
-            Insira a lore do personagem
-
-        */
 
         droneVigiaFight(sc, character);
 
@@ -181,21 +144,22 @@ public class JogoInterface {
 
 
         System.out.println(">>> Combate iniciado: " + character.getName() + " vs Drones de Vigilância");
-        System.out.println("-------------------------------------------------------------------------------------------------------------");
+        System.out.println(">>> "+ character.weaponNames() + Colors.AMARELO +" Dano: " + character.getWeapon().getDamage() + Colors.RESET);
+        splitVoid();
         System.out.println();
 
         while (character.getLife() > 0 && drones.stream().anyMatch(drone -> drone.getLife() > 0)) {
 
             System.out.println("Status atual:");
-            System.out.println(character.getName() + " - Vida: " + character.getLife());
+            System.out.println(character.getName() + " - " + Colors.VERMELHO + "Vida: " + character.getLife() + Colors.RESET);
 
             for (int i = 0; i < drones.size(); i++) {
 
                 Mobs drone = drones.get(i);
-                System.out.println((i + 1) + " - " + drone.getName() + " - Vida: " + drone.getLife());
+                System.out.println((i + 1) + " - " + drone.getName() + " - " + Colors.ROXO + "Vida: " + drone.getLife() + Colors.RESET );
             }
 
-            System.out.println();
+            splitVoid();
 
             System.out.println("Seu turno! Escolha uma ação:");
             System.out.println("1 - Atacar com arma");
@@ -213,7 +177,7 @@ public class JogoInterface {
                     for (int i = 0; i < drones.size(); i++) {
                         Mobs drone = drones.get(i);
                         if (drone.getLife() > 0) {
-                            System.out.println((i + 1) + " - " + drone.getName() + " (Vida: " + drone.getLife() + ")");
+                            System.out.println((i + 1) + " - " + drone.getName() + " (" + Colors.ROXO + "Vida: " + drone.getLife() + Colors.RESET + ")");
                         }
 
                     }
@@ -240,7 +204,7 @@ public class JogoInterface {
 
                         droneAlvo.setLife(Math.max(0, droneAlvo.getLife() - dano));
 
-                        System.out.println("Você atacou " + droneAlvo.getName() + " causando " + dano + " de dano!");
+                        System.out.println("Você atacou " + droneAlvo.getName() + " causando " + Colors.AMARELO +dano + " de dano!" + Colors.RESET);
 
                     } else {
                         System.out.println("Alvo inválido!");
@@ -258,7 +222,7 @@ public class JogoInterface {
 
                 if (drone.getLife() > 0) {
 
-                    System.out.println(drone.getName() + " ataca causando " + drone.getDamage() + " de dano!");
+                    System.out.println(drone.getName() + " ataca causando " + Colors.AMARELO +drone.getDamage() + " de dano!" + Colors.RESET);
 
                     character.setLife(Math.max(0, character.getLife() - drone.getDamage()));
 
@@ -272,7 +236,7 @@ public class JogoInterface {
 
             }
 
-            System.out.println("-------------------------------------------------------------------------------------------------------------");
+            splitVoid();
 
         }
 
@@ -285,13 +249,14 @@ public class JogoInterface {
         int lockTurns = 0;
 
         System.out.println(">>> Combate iniciado: " + character.getName() + " vs " + droneControle.getName());
+        System.out.println(">>> "+ character.weaponNames() + Colors.AMARELO +" Dano: " + character.getWeapon().getDamage() + Colors.RESET);
         System.out.println();
 
         while (character.getLife() > 0 && droneControle.getLife() > 0) {
 
             System.out.println("Status atual:");
-            System.out.println(character.getName() + " - Vida: " + character.getLife());
-            System.out.println(droneControle.getName() + " - Vida: " + droneControle.getLife());
+            System.out.println(character.getName() + " - " + Colors.VERMELHO + "Vida: " + character.getLife() + Colors.RESET);
+            System.out.println(droneControle.getName() + " - " + Colors.ROXO + "Vida: " + droneControle.getLife() + Colors.RESET);
             System.out.println();
 
             if (weaponLocked && lockTurns > 0) {
@@ -314,7 +279,7 @@ public class JogoInterface {
                         }
 
                         droneControle.setLife(Math.max(0, droneControle.getLife() - dano));
-                        System.out.println("Você atacou causando " + dano + " de dano!");
+                        System.out.println("Você atacou causando " + Colors.AMARELO +dano + " de dano!" + Colors.RESET);
                         break;
 
                     case 2:
@@ -327,7 +292,7 @@ public class JogoInterface {
             }
 
             if (droneControle.getLife() > 0) {
-                System.out.println(droneControle.getName() + " ataca causando " + droneControle.getDamage() + " de dano!");
+                System.out.println(droneControle.getName() + " ataca causando " + Colors.AMARELO + droneControle.getDamage() + " de dano!" + Colors.RESET);
                 character.setLife(Math.max(0, character.getLife() - droneControle.getDamage()));
 
                 if (!weaponLocked && Math.random() < 0.3) {
@@ -338,13 +303,14 @@ public class JogoInterface {
                 }
             }
 
-            System.out.println("-------------------------------------------------------------------------------------------------------------");
+
         }
 
         if (character.getLife() <= 0) {
             System.out.println(character.getName() + " foi derrotado.");
         } else {
             System.out.println(character.getName() + " venceu o combate!");
+            splitVoid();
         }
 
     }
@@ -356,6 +322,8 @@ public class JogoInterface {
         int turnCount = 0;
 
         System.out.println(">>> BOSS FIGHT: " + character.getName() + " vs " + gaia.getName());
+        System.out.println(">>> "+ character.weaponNames() + Colors.AMARELO +" Dano: " + character.getWeapon().getDamage() + Colors.RESET);
+        System.out.println();
         System.out.println("Descrição: A própria IA em sua forma digital/humana, protegida por um corpo energético e drones secundários.");
         System.out.println();
 
@@ -363,13 +331,13 @@ public class JogoInterface {
             turnCount++;
 
             System.out.println("========== TURNO " + turnCount + " ==========");
-            System.out.println(character.getName() + " - Vida: " + character.getLife());
-            System.out.println(gaia.getName() + " - Vida: " + gaia.getLife());
+            System.out.println(character.getName() + " - " + Colors.VERMELHO + "Vida: " + character.getLife() + Colors.RESET);
+            System.out.println(gaia.getName() + " - " + Colors.ROXO + "Vida: " + gaia.getLife() + Colors.RESET);
 
             for (int i = 0; i < drones.size(); i++) {
                 Mobs drone = drones.get(i);
                 if (drone.getLife() > 0) {
-                    System.out.println("Drone Suporte #" + (i + 1) + " - Vida: " + drone.getLife());
+                    System.out.println("Drone Suporte #" + (i + 1) + " - " + Colors.ROXO + "Vida: " + drone.getLife() + Colors.RESET);
                 }
             }
 
@@ -385,7 +353,7 @@ public class JogoInterface {
                 case 1:
                     int danoGaia = getDano(character);
                     gaia.setLife(Math.max(0, gaia.getLife() - danoGaia));
-                    System.out.println("Você atacou GAIA causando " + danoGaia + " de dano!");
+                    System.out.println("Você atacou GAIA causando " + Colors.AMARELO + danoGaia + " de dano!" + Colors.RESET);
                     break;
 
                 case 2:
@@ -394,7 +362,7 @@ public class JogoInterface {
                         System.out.println("Não há drones vivos para atacar!");
                     } else {
                         for (int i = 0; i < dronesVivos.size(); i++) {
-                            System.out.println((i + 1) + " - Drone Suporte (Vida: " + dronesVivos.get(i).getLife() + ")");
+                            System.out.println((i + 1) + " - Drone Suporte ("+Colors.ROXO+"Vida: " + dronesVivos.get(i).getLife() + Colors.RESET+")");
                         }
                         System.out.print("Escolha o número do drone: ");
                         int droneIndex = sc.nextInt() - 1;
@@ -402,7 +370,7 @@ public class JogoInterface {
                             Mobs alvo = dronesVivos.get(droneIndex);
                             int dano = getDano(character);
                             alvo.setLife(Math.max(0, alvo.getLife() - dano));
-                            System.out.println("Você atacou o drone causando " + dano + " de dano!");
+                            System.out.println("Você atacou o drone causando " + Colors.AMARELO +dano + " de dano!"+ Colors.RESET);
                         } else {
                             System.out.println("Drone inválido!");
                         }
@@ -418,7 +386,7 @@ public class JogoInterface {
             }
 
             if (gaia.getLife() > 0) {
-                System.out.println("GAIA usa Pulso Zero Carbono e causa " + gaia.getDamage() + " de dano ignorando armaduras!");
+                System.out.println("GAIA usa Pulso Zero Carbono e causa " + Colors.AMARELO +gaia.getDamage() + " de dano ignorando armaduras!"+ Colors.RESET);
                 character.setLife(Math.max(0, character.getLife() - gaia.getDamage()));
             }
 
@@ -427,10 +395,10 @@ public class JogoInterface {
                     if (Math.random() < 0.5 && gaia.getLife() > 0) {
 
                         gaia.setLife(Math.min(100, gaia.getLife() + 10));
-                        System.out.println(drone.getName() + " cura GAIA em +10 de vida!");
+                        System.out.println(drone.getName() + " cura GAIA em " + Colors.ROXO + "+10 de vida!" + Colors.RESET);
                     } else {
 
-                        System.out.println(drone.getName() + " ataca causando 10 de dano!");
+                        System.out.println(drone.getName() + " ataca causando "+Colors.AMARELO+"10 de dano!"+ Colors.RESET);
                         character.setLife(Math.max(0, character.getLife() - 10));
                     }
                 }
@@ -444,10 +412,10 @@ public class JogoInterface {
 
             if (turnCount % 3 == 0 && gaia.getLife() > 0) {
                 gaia.setLife(Math.min(100, gaia.getLife() + 20));
-                System.out.println("GAIA ativa Regeneração Ambiental! +20 de vida.");
+                System.out.println("GAIA ativa Regeneração Ambiental! " + Colors.ROXO + "+20 de vida."+ Colors.RESET);
             }
 
-            System.out.println("-------------------------------------------------------------------------------------------------------------");
+            splitVoid();
         }
 
         if (character.getLife() <= 0) {
@@ -497,6 +465,44 @@ public class JogoInterface {
 
         SomInterface.fecharBeep(); // <- FECHA O SOM AQUI!
 
+    }
+
+    private Personagem chooseYourCharacter (String choice) {
+
+        try {
+
+            switch (choice) {
+
+                case "1":
+
+                    return new DrMorato();
+
+                case "2":
+
+                    return new Liz();
+
+                default:
+
+                    System.out.println("Opção escolhida invalida!");
+
+                    break;
+
+            }
+
+
+
+        } catch (IllegalArgumentException | InputMismatchException ex) {
+
+            throw new InvalidUserInputException(ex.getMessage());
+
+        }
+
+        return null;
+
+    }
+
+    private void splitVoid(){
+        System.out.println(Colors.CIANO + "-------------------------------------------------------------------------------------------------------------" + Colors.RESET);
     }
 
 }
