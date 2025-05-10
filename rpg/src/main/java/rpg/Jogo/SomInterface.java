@@ -19,13 +19,23 @@ public class SomInterface {
     public static void playBeep() {
         if (sdl == null) return;
 
-        float frequency = 1400f; // som mais agudo e mais "click"
-        int duration = 25; // duração mais curta
+        // Frequência reduzida para um som menos agudo
+        float frequency = 300f; // foi reduzida de 1400f para 300f
+        int duration = 35; // duração ligeiramente aumentada
         byte[] buf = new byte[1];
 
         for (int i = 0; i < duration * 8; i++) {
             double angle = i / (8000f / frequency) * 2.0 * Math.PI;
-            buf[0] = (byte)(Math.sin(angle) * 60); // menor volume para ficar suave
+
+            // Adicionando um envelope para suavizar o som
+            double envelope;
+            if (i < duration * 2) {
+                envelope = i / (double)(duration * 2); // Ataque gradual
+            } else {
+                envelope = 1.0 - (i / (double)(duration * 8)); // Decay gradual
+            }
+
+            buf[0] = (byte)(Math.sin(angle) * 40 * envelope); // volume reduzido
             sdl.write(buf, 0, 1);
         }
     }
