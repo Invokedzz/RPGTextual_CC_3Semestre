@@ -1,5 +1,7 @@
 package rpg.Util;
 
+import rpg.exceptions.InvalidFilePathException;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
